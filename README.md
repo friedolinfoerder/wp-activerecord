@@ -1,4 +1,4 @@
-wp_activerecord
-===============
+ActiveRecord for WordPress
+==========================
 
-A activerecord implementation for wordpress
+An ActiveRecord implementation for WordPress
