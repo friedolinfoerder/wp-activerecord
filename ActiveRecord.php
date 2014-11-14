@@ -7,7 +7,7 @@ namespace wp_activerecord;
  * 
  * @author Friedolin Förder <friedolinfoerder@gmx.de>
  */
-abstract class Model {
+abstract class ActiveRecord {
     
     /**
      * The attributes of the model
