@@ -2,6 +2,8 @@
 
 namespace wp_activerecord;
 
+require "Query.php";
+
 /**
  * The Model class
  * 
@@ -181,7 +183,7 @@ abstract class ActiveRecord {
      * 
      * @return \wp_activerecord\Model The model instance
      */
-    public static function get_by_id($id) {
+    public static function get($id) {
         $attributes = (array) static::get_row_by_id($id);
         return new static($attributes);
     }
