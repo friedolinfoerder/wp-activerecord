@@ -14,9 +14,9 @@ You can use the library in your plugin or directly in your `functions.php` file.
 ```php
 require 'wp-activerecord/ActiveRecord.php';
 
-// create a model class for the table {wp-prefix}slideshow 
+// create a model class for the table {wp-prefix}slideshows 
 class Slideshow extends \wp_activerecord\ActiveRecord {
-    protected static $table_name = 'slideshow';
+    protected static $table_name = 'slideshows';
 }
 ```
 
