@@ -9,7 +9,7 @@ The goal of this library is to provide a small but yet powerful [ORM](http://en.
 Usage
 -----
 
-You can use the library in your plugin or directly in your `functions.php` file. All you have to do is to require the `ActiveRecord` class and add your model classes (e.g. `Slideshow`):
+You can use the library in your plugin or directly in your `functions.php` file. All you have to do is to require the `ActiveRecord` class and define your model classes (e.g. `Slideshow`):
 
 ```php
 require 'wp-activerecord/ActiveRecord.php';
