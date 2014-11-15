@@ -16,7 +16,7 @@ require 'wp-activerecord/ActiveRecord.php';
 
 // create a model class for the table {wp-prefix}slideshow 
 class Slideshow extends \wp_activerecord\ActiveRecord {
-    protected $table_name = 'slideshow';
+    protected static $table_name = 'slideshow';
 }
 ```
 
