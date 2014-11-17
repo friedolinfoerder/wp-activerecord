@@ -16,6 +16,10 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     protected $query;
     
     protected function setUp() {
+        global $wpdb;
+        // create global mock
+        $wpdb = new wpdbMock();
+        
         $this->query = new Query('table');
     }
     
@@ -626,15 +630,27 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     
     /**
      * @covers wp_activerecord\Query::sql
-     * @todo   Implement testSql().
      */
     public function testSqlWithAdvancedQuery() {
+        global $wpdb;
+        
+        $expectedObject = new \stdClass();
+        
+        // create global mock
+        $wpdb = $this->getMock('\\wp_activerecord\\wpdbMock', ['prepare']);
+        $wpdb->expects($this->once())
+             ->method('prepare')
+             ->with($this->equalTo("SELECT * \n"
+                                 . "FROM `table` \n"
+                                 . "LIMIT %d"), 
+                    $this->equalTo(5))
+             ->will($this->returnValue($expectedObject));
+        
         $this->assertEquals(
-            "SELECT * \n"
-          . "FROM `table` \n"
-          . "LIMIT 5",
+            $expectedObject,
             $this->query->limit(5)->sql()
         );
+                
     }
 
 }

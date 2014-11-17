@@ -415,18 +415,15 @@ class Query {
     /**
      * Create the final sql statement
      * 
-     * @global type $wpdb
-     * 
      * @return string The final sql statement
      */
     public function sql() {
-        global $wpdb;
         $preparation = $this->prepare();
         
         if($preparation->vars) {
             // add the sql string to the beginning of the args
             array_unshift($preparation->vars, $preparation->sql);
-            $sql = call_user_func_array([$wpdb, 'prepare'], $preparation->vars);
+            $sql = call_user_func_array([static::wpdb(), 'prepare'], $preparation->vars);
         } else {
             $sql = $preparation->sql;
         }
@@ -437,67 +434,50 @@ class Query {
     /**
      * Get the results of the query
      * 
-     * @global \wp_activerecord\type $wpdb
-     * 
      * @return array The results as an array
      */
     public function get_results() {
-        global $wpdb;
-        return $wpdb->get_results($this->sql());
+        return static::wpdb()->get_results($this->sql());
     }
     
     /**
      * Get the row of the query
      * 
-     * @global \wp_activerecord\type $wpdb
-     * 
      * @return \stdClass The row as an object
      */
     public function get_row() {
-        global $wpdb;
-        return $wpdb->get_row($this->sql());
+        return static::wpdb()->get_row($this->sql());
     }
     
     /**
      * Get the column of the query
      * 
-     * @global \wp_activerecord\type $wpdb
-     * 
      * @return array The column as an array
      */
     public function get_col() {
-        global $wpdb;
-        return $wpdb->get_col($this->sql());
+        return static::wpdb()->get_col($this->sql());
     }
     
     /**
      * Get the value of the query
      * 
-     * @global \wp_activerecord\type $wpdb
-     * 
      * @return string The value returned by the query
      */
     public function get_var() {
-        global $wpdb;
-        return $wpdb->get_var($this->sql());
+        return static::wpdb()->get_var($this->sql());
     }
     
     /**
      * Execute the query
      * 
-     * @global \wp_activerecord\type $wpdb
-     * 
      * @return null
      */
     public function execute() {
-        global $wpdb;
-        return $wpdb->query($this->sql());
+        return static::wpdb()->query($this->sql());
     }
     
     /**
      * Get the results of the query as an array of model instances
-     * 
-     * @global \wp_activerecord\type $wpdb
      * 
      * @return array The results as an array of model instances
      */
@@ -506,9 +486,8 @@ class Query {
             return $this->get_results();
         }
         
-        global $wpdb;
         $modelClass = $this->model;
-        $results = $wpdb->get_results($this->sql(), OBJECT_K);
+        $results = static::wpdb()->get_results($this->sql(), OBJECT_K);
         $models = [];
         foreach($results as $result) {
             $models[] = new $modelClass($result);
@@ -519,8 +498,6 @@ class Query {
     /**
      * Get the results of the query as a model instances
      * 
-     * @global \wp_activerecord\type $wpdb
-     * 
      * @return array The results as a model instances
      */
     public function get_one() {
@@ -528,10 +505,21 @@ class Query {
             return $this->get_row();
         }
         
-        global $wpdb;
         $modelClass = $this->model;
-        $result = $wpdb->get_row($this->sql(), OBJECT_K);
+        $result = static::wpdb()->get_row($this->sql(), OBJECT_K);
         return new $modelClass($result);
+    }
+    
+    /**
+     * Get the wpdb instance
+     * 
+     * @global object $wpdb
+     * 
+     * @return object The wpdb instance
+     */
+    public static function wpdb() {
+        global $wpdb;
+        return $wpdb;
     }
     
     protected function type($type) {

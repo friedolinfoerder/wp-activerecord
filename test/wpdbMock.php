@@ -1,5 +1,7 @@
 <?php
 
+namespace wp_activerecord;
+
 /**
  * wpdbMock
  *
@@ -37,8 +39,5 @@ class wpdbMock {
         return [];
     }
 }
-
-// create global mock
-$wpdb = new wpdbMock();
 
 define('OBJECT_K', 1);

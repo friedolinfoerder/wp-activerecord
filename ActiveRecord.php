@@ -121,18 +121,15 @@ abstract class ActiveRecord {
     /**
      * Insert a row into the database
      * 
-     * @global object $wpdb
-     * 
      * @param array $data An array of properties
      * 
      * @return int The last inserted id
      */
     public static function insert(array $data) {
-        global $wpdb;
         static::query()
             ->insert($data)
             ->execute();
-        return $wpdb->insert_id;
+        return static::wpdb()->insert_id;
     }
     
     /**

@@ -22,7 +22,9 @@ class ActiveRecordTest extends \PHPUnit_Framework_TestCase {
     
     protected function setUp() {
         global $wpdb;
-        $wpdb->sql = null;
+        // create global mock
+        $wpdb = new wpdbMock();
+        
         $this->active_record = new Table();
     }
 
@@ -157,83 +159,6 @@ class ActiveRecordTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(
             $wpdb,
             ActiveRecord::wpdb()
-        );
-    }
-
-    /**
-     * @covers wp_activerecord\ActiveRecord::delete_by_id
-     * @todo   Implement testDelete_by_id().
-     */
-    public function testDelete_by_id() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers wp_activerecord\ActiveRecord::get
-     * @todo   Implement testGet().
-     */
-    public function testGet() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers wp_activerecord\ActiveRecord::get_row_by_id
-     * @todo   Implement testGet_row_by_id().
-     */
-    public function testGet_row_by_id() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers wp_activerecord\ActiveRecord::get_row
-     * @todo   Implement testGet_row().
-     */
-    public function testGet_row() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers wp_activerecord\ActiveRecord::get_var
-     * @todo   Implement testGet_var().
-     */
-    public function testGet_var() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers wp_activerecord\ActiveRecord::__set
-     * @todo   Implement test__set().
-     */
-    public function test__set() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers wp_activerecord\ActiveRecord::__get
-     * @todo   Implement test__get().
-     */
-    public function test__get() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
         );
     }
     
