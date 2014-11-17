@@ -343,7 +343,7 @@ class Query {
      */
     public function prepare() {
         $model = $this->model;
-        $table = $this->hasModel ? $model::getTableName() : $model;
+        $table = $this->hasModel ? $model::get_table_name() : $model;
         
         $args = [];
         $sql = [];
@@ -514,6 +514,24 @@ class Query {
             $models[] = new $modelClass($result);
         }
         return $models;
+    }
+    
+    /**
+     * Get the results of the query as a model instances
+     * 
+     * @global \wp_activerecord\type $wpdb
+     * 
+     * @return array The results as a model instances
+     */
+    public function get_one() {
+        if(!$this->hasModel) {
+            return $this->get_row();
+        }
+        
+        global $wpdb;
+        $modelClass = $this->model;
+        $result = $wpdb->get_row($this->sql(), OBJECT_K);
+        return new $modelClass($result);
     }
     
     protected function type($type) {

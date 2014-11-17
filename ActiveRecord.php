@@ -34,16 +34,13 @@ abstract class ActiveRecord {
      */
     public function save() {
         $isNew = !array_key_exists('id', $this->attributes);
-        if($isNew) {
-            $this->attributes['createdAt'] = current_time('mysql');
-        }
-        $this->attributes['updatedAt'] = current_time('mysql');
-        
+        $this->save_pre($isNew);
         if($isNew) {
             $this->attributes['id'] = static::insert($this->attributes);
         } else {
             static::update($this->attributes)->where('id', $this->id)->execute();
         }
+        $this->save_post($isNew);
         return $this;
     }
     
@@ -53,12 +50,20 @@ abstract class ActiveRecord {
      * @return \wp_activerecord\Model The model instance
      */
     public function delete() {
-        if($this->id) {
+        if(array_key_exists('id', $this->attributes)) {
+            $this->delete_pre();
             static::delete_by_id($this->id);
             $this->id = null;
+            $this->delete_post();
         }
         return $this;
     }
+    
+    // these methods could be implemented in the derived class
+    protected function save_pre($isNew) {}
+    protected function save_post($isNew) {}
+    protected function delete_pre() {}
+    protected function delete_post() {}
     
     /**
      * Set the table name
@@ -90,22 +95,6 @@ abstract class ActiveRecord {
     public static function wpdb() {
         global $wpdb;
         return $wpdb;
-    }
-    
-    /**
-     * Get a property or a call a function of the wpdb instance
-     * 
-     * @param string $name      The property or method name
-     * @param array  $arguments The arguments for the method call
-     * 
-     * @return mixed The return value of the method call or the value of the property
-     */
-    public static function __callStatic($name, $arguments) {
-        $wpdb = static::wpdb();
-        if(method_exists($wpdb, $name)) {
-            return call_user_func_array([$wpdb, $name], $arguments);
-        }
-        return $wpdb->{$name};
     }
     
     /**
@@ -189,46 +178,6 @@ abstract class ActiveRecord {
     }
     
     /**
-     * Get the row by id
-     * 
-     * @param int|string $id The id of the row
-     * 
-     * @return \stdClass The row object
-     */
-    public static function get_row_by_id($id) {
-        return static::get_row('id', $id);
-    }
-    
-    /**
-     * Get the row by a column
-     * 
-     * @param string $column The column name
-     * @param mixed  $value  The value of the column
-     * 
-     * @return array An Object with row data
-     */
-    public static function get_row($column, $value) {
-        return static::query()
-            ->where($column, $value)
-            ->get_row();
-    }
-    
-    /**
-     * Get the row by a column
-     * 
-     * @param string $column The column name
-     * @param mixed  $value  The value of the column
-     * 
-     * @return array An Object with row data
-     */
-    public static function get_var($var, $column, $value) {
-        return static::query()
-            ->select($var)
-            ->where($column, $value)
-            ->get_var();
-    }
-    
-    /**
      * Set a column value
      * 
      * @param string $column The name of the column
@@ -247,5 +196,54 @@ abstract class ActiveRecord {
      */
     public function __get($column) {
         return $this->attributes[$column];
+    }
+    
+    /**
+     * Get a var, rows, results or model instances
+     * 
+     * @param string $name      The name of the non existing method
+     * @param array  $arguments The arguments of the non existing method
+     * 
+     * @return mixed The return value of the query
+     * @throws Exception
+     */
+    public function __callStatic($name, $arguments) {
+        $type = null;
+        $prop_name = null;
+        $query = static::query()->select();
+        if(substr($name, 0, 7) === 'get_by_') {
+            $type = 'get';
+            $prop_name = substr($name, 7);
+        } elseif(substr($name, 0, 11) === 'get_one_by_') {
+            $type = 'get_one';
+            $prop_name = substr($name, 11);
+        } elseif(substr($name, 0, 11) === 'get_row_by_') {
+            $type = 'get_row';
+            $prop_name = substr($name, 11);
+        } elseif(substr($name, 0, 15) === 'get_results_by_') {
+            $type = 'get_results';
+            $prop_name = substr($name, 15);
+        } elseif(substr($name, 0, 8) === 'get_var_') {
+            $type = 'get_var';
+            $props = explode('_by_', substr($name, 8));
+            $var = array_shift($props);
+            if(count($props) === 0) {
+                throw new Exception('Method get_var must be called with a WHERE clause, none given');
+            }
+            $prop_name = implode('_by_', $props);
+            $query->select($var);
+        } else {
+            throw new Exception("No method with name '$name'");
+        }
+        $counter = 0;
+        $andProperties = explode('_and_', $prop_name);
+        foreach($andProperties as $property) {
+            $orProperties = explode('_or_', $property);
+            $query->where($orProperties[0], $arguments[$counter++]);
+            for($index = 1; $index < count($orProperties); $index++) {
+                $query->or_where($orProperties[$index], $arguments[$counter++]);
+            }
+        }
+        return $query->{$type}();
     }
 }
