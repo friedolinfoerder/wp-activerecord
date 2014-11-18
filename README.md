@@ -55,19 +55,19 @@ $activeRecord = Table::create([
    'title' => 'WordPress ActiveRecord'
 ]);
 ```
-<br>
+
 ##### Method `delete_by_id($id)`
 ###### Example:
 ```php
 Table::delete_by_id(3);
 ```
-<br>
+
 ##### Method `get($id)`
 ###### Example:
 ```php
 Table::get(3);
 ```
-<br>
+
 ##### Method `get_{type}_by_{column}($value [, $...])`
 ###### Example:
 ```php
@@ -76,13 +76,13 @@ $array = Table::get_by_name_or_title('wp-activerecord', 'WP');
 $row = Table::get_row_by_name_and_title('wp', 'WP');
 $var = Table::get_var_name_by_id(3);
 ```
-<br>
+
 ##### Method `get_table_name()`
 ###### Example:
 ```php
 $table_name = Table::get_table_name();
 ```
-<br>
+
 ##### Method `insert($data)`
 ###### Example:
 ```php
@@ -99,13 +99,13 @@ $last_insert_id = Table::insert([[
    'title' => 'Class Query'
 ]]);
 ```
-<br>
+
 ##### Method `query()`
 ###### Example:
 ```php
 $query = Table::query();
 ```
-<br>
+
 ##### Method `update($column [, $value])`
 ###### Example:
 ```php
@@ -116,13 +116,13 @@ $query = Table::update([
    'title' => 'Updated WordPress ActiveRecord'
 ]);
 ```
-<br>
+
 ##### Method `wpdb()`
 ###### Example:
 ```php
 $wpdb = Table::wpdb();
 ```
-<br>
+
 #### Instance methods
 
 ##### Method `delete()`
@@ -130,7 +130,7 @@ $wpdb = Table::wpdb();
 ```php
 $activeRecord->delete();
 ```
-<br>
+
 ##### Method `save()`
 ###### Example:
 ```php
@@ -147,7 +147,7 @@ protected function save_pre($isNew) {
     $this->new = $isNew ? 1 : 0;
 }
 ```
-<br>
+
 ##### Method `save_post($isNew)`
 ###### Example:
 ```php
@@ -156,7 +156,7 @@ protected function save_post($isNew) {
     // do something with $this
 }
 ```
-<br>
+
 ##### Method `delete_pre()`
 ###### Example:
 ```php
@@ -165,7 +165,7 @@ protected function delete_pre() {
     // do something with $this
 }
 ```
-<br>
+
 ##### Method `delete_post()`
 ###### Example:
 ```php
@@ -192,7 +192,7 @@ $activeRecord = Table::query()
   ->select('id', 'name')
   ->get();
 ```
-<br>
+
 ##### Method `select([$...])`
 ###### Example:
 ```php
@@ -201,7 +201,7 @@ Table::query()
   ->where('name', 'wp')
   ->execute();
 ```
-<br>
+
 ##### Method `update([$column [, $value]])`
 ###### Example:
 ```php
@@ -221,7 +221,7 @@ Table::query()
   ])
   ->execute();
 ```
-<br>
+
 ##### Method `set($column [, $value])`
 ###### Example:
 ```php
@@ -236,7 +236,7 @@ Table::query()
   ])
   ->execute();
 ```
-<br>
+
 ##### Method `insert($data)`
 ###### Example:
 ```php
@@ -257,7 +257,7 @@ Table::query
   ]])
   ->execute();
 ```
-<br>
+
 ##### Method `where($column [, $type_or_value [, $value]])`
 ###### Example:
 ```php
@@ -272,4 +272,3 @@ Table::query()
   ->where('numbers', 'in', [[1, 2, 3]] // a array as raw value will be joined
   ->get();
 ```
-<br>
