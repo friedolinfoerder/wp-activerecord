@@ -123,7 +123,7 @@ $query = Table::update([
 $wpdb = Table::wpdb();
 ```
 <br>
-# Instance methods
+#### Instance methods
 
 ##### Method `delete()`
 ###### Example:
