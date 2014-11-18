@@ -45,7 +45,7 @@ API
 ### Class `ActiveRecord`
 
 #### Static Methods
-##### `create([$attributes])`
+##### Method `create([$attributes])`
 ###### Example:
 ```php
 $activeRecord = Table::create();
@@ -56,19 +56,19 @@ $activeRecord = Table::create([
 ]);
 ```
 <br>
-##### `delete_by_id($id)`
+##### Method `delete_by_id($id)`
 ###### Example:
 ```php
 Table::delete_by_id(3);
 ```
 <br>
-##### `get($id)`
+##### Method `get($id)`
 ###### Example:
 ```php
 Table::get(3);
 ```
 <br>
-##### `get_{type}_by_{column}($value [, $...])`
+##### Method `get_{type}_by_{column}($value [, $...])`
 ###### Example:
 ```php
 $activeRecord = Table::get_one_by_title('WordPress');
@@ -77,13 +77,13 @@ $row = Table::get_row_by_name_and_title('wp', 'WP');
 $var = Table::get_var_name_by_id(3);
 ```
 <br>
-##### `get_table_name()`
+##### Method `get_table_name()`
 ###### Example:
 ```php
 $table_name = Table::get_table_name();
 ```
 <br>
-##### `insert($data)`
+##### Method `insert($data)`
 ###### Example:
 ```php
 $last_insert_id = Table::insert([
@@ -100,13 +100,13 @@ $last_insert_id = Table::insert([[
 ]]);
 ```
 <br>
-##### `query()`
+##### Method `query()`
 ###### Example:
 ```php
 $query = Table::query();
 ```
 <br>
-##### `update($column [, $value])`
+##### Method `update($column [, $value])`
 ###### Example:
 ```php
 $query = Table::update('name', 'wp-activerecord-updated');
@@ -117,7 +117,7 @@ $query = Table::update([
 ]);
 ```
 <br>
-##### `wpdb()`
+##### Method `wpdb()`
 ###### Example:
 ```php
 $wpdb = Table::wpdb();
@@ -125,13 +125,13 @@ $wpdb = Table::wpdb();
 <br>
 # Instance methods
 
-##### `delete()`
+##### Method `delete()`
 ###### Example:
 ```php
 $activeRecord->delete();
 ```
 <br>
-##### `save()`
+##### Method `save()`
 ###### Example:
 ```php
 $activeRecord->save();
@@ -139,7 +139,7 @@ $activeRecord->save();
 
 #### Event methods
 
-##### `save_pre($isNew)`
+##### Method `save_pre($isNew)`
 ###### Example:
 ```php
 // in your derived class:
@@ -148,7 +148,7 @@ protected function save_pre($isNew) {
 }
 ```
 <br>
-##### `save_post($isNew)`
+##### Method `save_post($isNew)`
 ###### Example:
 ```php
 // in your derived class:
@@ -157,7 +157,7 @@ protected function save_post($isNew) {
 }
 ```
 <br>
-##### `delete_pre()`
+##### Method `delete_pre()`
 ###### Example:
 ```php
 // in your derived class:
@@ -166,7 +166,7 @@ protected function delete_pre() {
 }
 ```
 <br>
-##### `delete_post()`
+##### Method `delete_post()`
 ###### Example:
 ```php
 // in your derived class:
@@ -178,14 +178,14 @@ protected function delete_post() {
 ### Class `Query`
 
 #### Static Methods
-##### `wpdb()`
+##### Method `wpdb()`
 ###### Example:
 ```php
 $wpdb = Query::wpdb();
 ```
 
 #### Instance Methods
-##### `select([$...])`
+##### Method `select([$...])`
 ###### Example:
 ```php
 $activeRecord = Table::query()
@@ -193,7 +193,7 @@ $activeRecord = Table::query()
   ->get();
 ```
 <br>
-##### `select([$...])`
+##### Method `select([$...])`
 ###### Example:
 ```php
 Table::query()
@@ -202,7 +202,7 @@ Table::query()
   ->execute();
 ```
 <br>
-##### `update([$column [, $value]])`
+##### Method `update([$column [, $value]])`
 ###### Example:
 ```php
 Table::query()
@@ -222,7 +222,7 @@ Table::query()
   ->execute();
 ```
 <br>
-##### `set($column [, $value])`
+##### Method `set($column [, $value])`
 ###### Example:
 ```php
 Table::query()
@@ -237,7 +237,7 @@ Table::query()
   ->execute();
 ```
 <br>
-##### `insert($data)`
+##### Method `insert($data)`
 ###### Example:
 ```php
 Table::query()
@@ -258,7 +258,7 @@ Table::query
   ->execute();
 ```
 <br>
-##### `where($column [, $type_or_value [, $value]])`
+##### Method `where($column [, $type_or_value [, $value]])`
 ###### Example:
 ```php
 Table::query()
