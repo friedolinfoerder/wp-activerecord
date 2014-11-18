@@ -272,3 +272,8 @@ Table::query()
   ->where('numbers', 'in', [[1, 2, 3]] // a array as raw value will be joined
   ->get();
 ```
+
+License
+-------
+
+This code is licensed under the MIT license.
