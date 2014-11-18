@@ -137,7 +137,7 @@ $activeRecord->delete();
 $activeRecord->save();
 ```
 
-# Event methods
+#### Event methods
 
 ##### `save_pre($isNew)`
 ###### Example:
