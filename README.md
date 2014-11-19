@@ -43,7 +43,7 @@ API
 ---
 
 * [Class `ActiveRecord`](#class-activerecord)
-    * [Static Methods](#static-methods)
+    * [Static methods](#static-methods)
       * [Method `create([$attributes])`](#method-createattributes)
       * [Method `delete_by_id($id)`](#method-delete_by_idid)
       * [Method `get([$id])`](#method-getid)
@@ -62,9 +62,9 @@ API
       * [Method `delete_pre()`](#method-delete_pre)
       * [Method `delete_post()`](#method-delete_post)
   * [Class `Query`](#class-query)
-    * [Static Methods](#static-methods)
+    * [Static methods](#static-methods-1)
       * [Method `wpdb()`](#method-wpdb)
-    * [Instance Methods](#instance-methods)
+    * [Instance methods](#instance-methods-1)
       * [Method `select([$...])`](#method-select)
       * [Method `delete()`](#method-delete)
       * [Method `update([$column [, $value]])`](#method-updatecolumn--value)
@@ -88,7 +88,7 @@ API
       * [Method `get()`](#method-get)
       * [Method `get_one()`](#method-get_one)
       * [Method `execute()`](#method-execute)
-      * [Method `wpdb()`](#method-wpdb)
+      * [Method `wpdb()`](#method-wpdb-1)
 
 ### Class `ActiveRecord`
 
