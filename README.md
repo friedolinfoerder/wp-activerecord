@@ -61,7 +61,7 @@ API
       * [Method `save_post($isNew)`](#method-save_postisnew)
       * [Method `delete_pre()`](#method-delete_pre)
       * [Method `delete_post()`](#method-delete_post)
-  * [Class `Query`](#class-query)
+* [Class `Query`](#class-query)
     * [Static methods](#static-methods-1)
       * [Method `wpdb()`](#method-wpdb)
     * [Instance methods](#instance-methods-1)
