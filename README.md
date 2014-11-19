@@ -49,7 +49,7 @@ API
       * [Method `get([$id])`](#method-getid)
       * [Method `get_{type}_by_{column}($value [, $...])`](#method-get_type_by_columnvalue--)
       * [Method `get_table_name()`](#method-get_table_name)
-      * [Method `insert($data)`](#method-insert_data)
+      * [Method `insert($data)`](#method-insertdata)
       * [Method `query()`](#method-query)
       * [Method `update($column [, $value])`](#method-updatecolumn--value)
       * [Method `wpdb()`](#method-wpdb)
