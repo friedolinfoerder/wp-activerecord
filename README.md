@@ -62,10 +62,11 @@ $activeRecord = Table::create([
 Table::delete_by_id(3);
 ```
 
-##### Method `get($id)`
+##### Method `get([$id])`
 ###### Example:
 ```php
-Table::get(3);
+$activeRecords = Table::get(); // all records
+$activeRecord = Table::get(3); // one record by id
 ```
 
 ##### Method `get_{type}_by_{column}($value [, $...])`
