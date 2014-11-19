@@ -63,7 +63,7 @@ API
       * [Method `delete_post()`](#method-delete_post)
 * [Class `Query`](#class-query)
     * [Static methods](#static-methods-1)
-      * [Method `wpdb()`](#method-wpdb)
+      * [Method `wpdb()`](#method-wpdb-1)
     * [Instance methods](#instance-methods-1)
       * [Method `select([$...])`](#method-select)
       * [Method `delete()`](#method-delete)
@@ -88,7 +88,6 @@ API
       * [Method `get()`](#method-get)
       * [Method `get_one()`](#method-get_one)
       * [Method `execute()`](#method-execute)
-      * [Method `wpdb()`](#method-wpdb-1)
 
 ### Class `ActiveRecord`
 
