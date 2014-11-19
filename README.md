@@ -170,6 +170,13 @@ $query = Table::update([
 ###### Example:
 ```php
 $wpdb = Table::wpdb();
+
+// use case:
+$userInput = '20%';
+Table::query()
+  ->delete()
+  ->where('name', 'like', '%' . Table::wpdb()->esc_like($userInput) . '%')
+  ->execute();
 ```
 
 #### Instance methods
@@ -438,16 +445,6 @@ $activeRecord = Table::query()
 Table::query()
   ->delete()
   ->where('name', 'this is a unique name')
-  ->execute();
-```
-
-##### Method `wpdb()`
-###### Example:
-```php
-$userInput = '20%';
-Table::query()
-  ->delete()
-  ->where('name', 'like', '%' . Table::wpdb()->esc_like($userInput) . '%')
   ->execute();
 ```
 
