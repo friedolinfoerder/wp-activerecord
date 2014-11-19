@@ -77,7 +77,7 @@ API
       * [Method `having($column [, $type_or_value [, $value]])`](#method-havingcolumn--type_or_value--value)
       * [Method `and_having($column [, $type_or_value [, $value]])`](#method-and_havingcolumn--type_or_value--value)
       * [Method `or_having($column [, $type_or_value [, $value]])`](#method-or_havingcolumn--type_or_value--value)
-      * [Method `order_by($column [, $order])`](#method-order_bycolumn-order)
+      * [Method `order_by($column [, $order])`](#method-order_bycolumn--order)
       * [Method `limit($limit)`](#method-limitlimit)
       * [Method `offset($offset)`](#method-offsetoffset)
       * [Method `sql()`](#method-sql)
@@ -336,7 +336,7 @@ $activeRecords = Table::query()
   ->get();
 ```
 
-##### Method `having($column [, $type_or_value=null [, $value=null]])`
+##### Method `having($column [, $type_or_value [, $value]])`
 ###### Example:
 ```php
 $activeRecords = Table::query()
