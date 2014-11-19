@@ -534,6 +534,28 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
+    
+    /**
+     * @covers wp_activerecord\Query::having
+     */
+    public function testHavingRawColumn() {
+        $preparation = $this->query
+            ->group_by('name')
+            ->having(["SUM(price)"], ">", 10)
+            ->prepare();
+        
+        $this->assertEquals(
+            "SELECT * \n"
+          . "FROM `table` \n"
+          . "GROUP BY `name` ASC \n"
+          . "HAVING ( SUM(price) > %s )",
+            $preparation->sql
+        );
+        $this->assertEquals(
+            [10],
+            $preparation->vars
+        );
+    }
 
     /**
      * @covers wp_activerecord\Query::order_by

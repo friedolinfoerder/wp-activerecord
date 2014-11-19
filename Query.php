@@ -468,15 +468,6 @@ class Query {
     }
     
     /**
-     * Execute the query
-     * 
-     * @return null
-     */
-    public function execute() {
-        return static::wpdb()->query($this->sql());
-    }
-    
-    /**
      * Get the results of the query as an array of model instances
      * 
      * @return array The results as an array of model instances
@@ -508,6 +499,15 @@ class Query {
         $modelClass = $this->model;
         $result = static::wpdb()->get_row($this->sql(), OBJECT_K);
         return new $modelClass($result);
+    }
+    
+    /**
+     * Execute the query
+     * 
+     * @return null
+     */
+    public function execute() {
+        return static::wpdb()->query($this->sql());
     }
     
     /**
@@ -603,21 +603,28 @@ class Query {
                 if(is_array($item)) {
                     $items[] = array_shift($item);
                     $args = array_merge($args, $item);
-                } elseif(is_array($item->value)) {
-                    $value = $item->value[0];
-                    if(is_array($value)) {
-                        $values = [];
-                        foreach($value as $v) {
-                            $values[] = '%s';
-                            $args[] = $v;
-                        }
-                        $value = sprintf('(%s)', join(', ', $values));
-                    }
-                    // include decoded value directly
-                    $items[] = sprintf("`%s` %s %s", $item->column, $item->type, $value);
                 } else {
-                    $items[] = sprintf("`%s` %s %%s", $item->column, $item->type);
-                    $args[] = $item->value;
+                    if(is_array($item->column)) {
+                        $column = $item->column[0];
+                    } else {
+                        $column = "`{$item->column}`";
+                    }
+                    
+                    if(is_array($item->value)) {
+                        $value = $item->value[0];
+                        if(is_array($value)) {
+                            $values = [];
+                            foreach($value as $v) {
+                                $values[] = '%s';
+                                $args[] = $v;
+                            }
+                            $value = sprintf('(%s)', join(', ', $values));
+                        }
+                    } else {
+                        $value = '%s';
+                        $args[] = $item->value;
+                    }
+                    $items[] = sprintf("%s %s %s", $column, $item->type, $value);
                 }
             }
             $where[] = sprintf("( %s )", join(" AND ", $items));

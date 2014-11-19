@@ -169,9 +169,11 @@ abstract class ActiveRecord {
      * 
      * @return \wp_activerecord\Model The model instance
      */
-    public static function get($id) {
-        $attributes = (array) static::get_row_by_id($id);
-        return new static($attributes);
+    public static function get($id=null) {
+        if(func_num_args() === 0) {
+            return static::query()->get();
+        }
+        return static::query()->where('id', $id)->get_one();
     }
     
     /**

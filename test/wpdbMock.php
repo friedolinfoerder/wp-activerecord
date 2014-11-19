@@ -38,6 +38,11 @@ class wpdbMock {
         $this->query($sql);
         return [];
     }
+    
+    public function get_results($sql) {
+        $this->query($sql);
+        return [];
+    }
 }
 
 define('OBJECT_K', 1);

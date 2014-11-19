@@ -142,12 +142,38 @@ class ActiveRecordTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers wp_activerecord\ActiveRecord::get_table_name
-     * @todo   Implement testGet_table_name().
      */
     public function testGet_table_name() {
         $this->assertEquals(
             'prefix_table',
             Table::get_table_name()
+        );
+    }
+    
+    /**
+     * @covers wp_activerecord\ActiveRecord::get
+     */
+    public function testGet() {
+        Table::get(3);
+        
+        $this->assertEquals(
+            "SELECT * \n"
+          . "FROM `prefix_table` \n"
+          . "WHERE ( `id` = '3' )",
+            Table::wpdb()->sql
+        );
+    }
+    
+    /**
+     * @covers wp_activerecord\ActiveRecord::get
+     */
+    public function testGetAll() {
+        Table::get();
+        
+        $this->assertEquals(
+            "SELECT * \n"
+          . "FROM `prefix_table`",
+            Table::wpdb()->sql
         );
     }
 
