@@ -261,7 +261,7 @@ Table::query
 ##### Method `where($column [, $type_or_value [, $value]])`
 ###### Example:
 ```php
-Table::query()
+$activeRecords = Table::query()
   ->where('name', 'wp')
   ->where('title', 'LIKE', '%active%')
   ->where([
@@ -271,6 +271,135 @@ Table::query()
   ->where('value', '>', ['RAND()']) // raw value wrapped in array
   ->where('numbers', 'in', [[1, 2, 3]] // a array as raw value will be joined
   ->get();
+```
+
+##### Method `and_where($column [, $type_or_value [, $value]])`
+Alias for `where`.
+
+##### Method `or_where($column [, $type_or_value [, $value]])`
+Alias for `where`, but adds a new group to the where clause.
+
+##### Method `group_by($column [, $order])`
+###### Example:
+```php
+$activeRecords = Table::query()
+  ->group_by('name', 'asc')
+  ->get();
+```
+
+##### Method `having($column [, $type_or_value=null [, $value=null]])`
+###### Example:
+```php
+$activeRecords = Table::query()
+  ->group_by('name')
+  ->having(["SUM(price)"], ">", 10) // raw column value wrapped in array
+  ->get();
+```
+
+##### Method `and_having($column [, $type_or_value [, $value]])`
+Alias for `having`.
+
+##### Method `or_having($column [, $type_or_value [, $value]])`
+Alias for `having`, but adds a new group to the having clause.
+
+##### Method `order_by($column [, $order])`
+###### Example:
+```php
+$activeRecords = Table::query()
+  ->order_by('description')
+  ->order_by('name', 'desc')
+  ->get();
+```
+
+##### Method `limit($limit)`
+###### Example:
+```php
+$activeRecords = Table::query()
+  ->limit(5)
+  ->get();
+```
+
+##### Method `offset($offset)`
+###### Example:
+```php
+$activeRecords = Table::query()
+  ->offset(10)
+  ->get();
+```
+
+##### Method `sql()`
+###### Example:
+```php
+$sql = Table::query()
+  ->select('description')
+  ->where('description', 'like', 'Title: %')
+  ->sql();
+```
+
+##### Method `get_results()`
+###### Example:
+```php
+$results = Table::query()
+  ->get_results();
+```
+
+##### Method `get_row()`
+###### Example:
+```php
+$row = Table::query()
+  ->where('name', 'this is a unique name')
+  ->get_row();
+```
+
+##### Method `get_col()`
+###### Example:
+```php
+$descriptions = Table::query()
+  ->select('description')
+  ->get_col();
+```
+
+##### Method `get_var()`
+###### Example:
+```php
+$description = Table::query()
+  ->select('description')
+  ->where('name', 'this is a unique name')
+  ->get_var();
+```
+
+##### Method `get()`
+###### Example:
+```php
+$activeRecords = Table::query()
+  ->get();
+```
+
+##### Method `get_one()`
+###### Example:
+```php
+$activeRecord = Table::query()
+  ->where('name', 'this is a unique name')
+  ->get_one();
+```
+
+##### Method `execute()`
+###### Example:
+```php
+Table::query()
+  ->delete()
+  ->where('name', 'this is a unique name')
+  ->execute();
+```
+
+##### Method `wpdb()`
+###### Example:
+```php
+$userInput = '20%';
+Table::query()
+  ->delete()
+  ->where('name', 'like', '%' . Table::wpdb()->esc_like($userInput) . '%')
+  ->execute();
 ```
 
 License
