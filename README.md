@@ -93,6 +93,7 @@ API
 
 #### Static Methods
 ##### Method `create([$attributes])`
+Create a model with an array of attributes
 ###### Example:
 ```php
 $activeRecord = Table::create();
@@ -104,12 +105,14 @@ $activeRecord = Table::create([
 ```
 
 ##### Method `delete_by_id($id)`
+Delete a row by id
 ###### Example:
 ```php
 Table::delete_by_id(3);
 ```
 
 ##### Method `get([$id])`
+Get all model instances or a model instance by id
 ###### Example:
 ```php
 $activeRecords = Table::get(); // all records
@@ -117,6 +120,7 @@ $activeRecord = Table::get(3); // one record by id
 ```
 
 ##### Method `get_{type}_by_{column}($value [, $...])`
+Dynmamic finder method: Get a var, rows, results or model instances
 ###### Example:
 ```php
 $activeRecord = Table::get_one_by_title('WordPress');
@@ -126,12 +130,14 @@ $var = Table::get_var_name_by_id(3);
 ```
 
 ##### Method `get_table_name()`
+Get the table name
 ###### Example:
 ```php
 $table_name = Table::get_table_name();
 ```
 
 ##### Method `insert($data)`
+Insert one or multiple rows into the database
 ###### Example:
 ```php
 $last_insert_id = Table::insert([
@@ -149,12 +155,14 @@ $last_insert_id = Table::insert([[
 ```
 
 ##### Method `query()`
+Get a query instance
 ###### Example:
 ```php
 $query = Table::query();
 ```
 
 ##### Method `update($column [, $value])`
+Shortcut method for creating a query instance and calling update on it
 ###### Example:
 ```php
 $query = Table::update('name', 'wp-activerecord-updated');
@@ -166,6 +174,7 @@ $query = Table::update([
 ```
 
 ##### Method `wpdb()`
+Get the wpdb instance
 ###### Example:
 ```php
 $wpdb = Table::wpdb();
@@ -181,12 +190,14 @@ Table::query()
 #### Instance methods
 
 ##### Method `delete()`
+Delete the model
 ###### Example:
 ```php
 $activeRecord->delete();
 ```
 
 ##### Method `save()`
+Save the model
 ###### Example:
 ```php
 $activeRecord->save();
@@ -195,6 +206,7 @@ $activeRecord->save();
 #### Event methods
 
 ##### Method `save_pre($isNew)`
+Called before saving the model
 ###### Example:
 ```php
 // in your derived class:
@@ -204,6 +216,7 @@ protected function save_pre($isNew) {
 ```
 
 ##### Method `save_post($isNew)`
+Called after saving the model
 ###### Example:
 ```php
 // in your derived class:
@@ -213,6 +226,7 @@ protected function save_post($isNew) {
 ```
 
 ##### Method `delete_pre()`
+Called before deleting the model
 ###### Example:
 ```php
 // in your derived class:
@@ -222,6 +236,7 @@ protected function delete_pre() {
 ```
 
 ##### Method `delete_post()`
+Called after deleting the model
 ###### Example:
 ```php
 // in your derived class:
@@ -234,13 +249,16 @@ protected function delete_post() {
 
 #### Static Methods
 ##### Method `wpdb()`
+Get the wpdb instance
 ###### Example:
 ```php
 $wpdb = Query::wpdb();
 ```
 
 #### Instance Methods
+Select rows
 ##### Method `select([$...])`
+
 ###### Example:
 ```php
 $activeRecord = Table::query()
@@ -249,6 +267,7 @@ $activeRecord = Table::query()
 ```
 
 ##### Method `delete()`
+Delete rows
 ###### Example:
 ```php
 Table::query()
@@ -258,6 +277,7 @@ Table::query()
 ```
 
 ##### Method `update([$column [, $value]])`
+Update rows (Alias for \wp_activerecord\Query::set)
 ###### Example:
 ```php
 Table::query()
@@ -278,6 +298,7 @@ Table::query()
 ```
 
 ##### Method `set($column [, $value])`
+Set columns, which should be updated
 ###### Example:
 ```php
 Table::query()
@@ -293,6 +314,7 @@ Table::query()
 ```
 
 ##### Method `insert($data)`
+Insert rows
 ###### Example:
 ```php
 Table::query()
@@ -314,6 +336,7 @@ Table::query
 ```
 
 ##### Method `where($column [, $type_or_value [, $value]])`
+Add a where condition
 ###### Example:
 ```php
 $activeRecords = Table::query()
@@ -332,9 +355,10 @@ $activeRecords = Table::query()
 Alias for `where`.
 
 ##### Method `or_where($column [, $type_or_value [, $value]])`
-Alias for `where`, but adds a new group to the where clause.
+Alias for `where`, but adds a new group to the where clause, which will be added with the keyword OR
 
 ##### Method `group_by($column [, $order])`
+Add a group by section
 ###### Example:
 ```php
 $activeRecords = Table::query()
@@ -343,6 +367,7 @@ $activeRecords = Table::query()
 ```
 
 ##### Method `having($column [, $type_or_value [, $value]])`
+Add a having condition
 ###### Example:
 ```php
 $activeRecords = Table::query()
@@ -355,9 +380,10 @@ $activeRecords = Table::query()
 Alias for `having`.
 
 ##### Method `or_having($column [, $type_or_value [, $value]])`
-Alias for `having`, but adds a new group to the having clause.
+Alias for `having`, but adds a new group to the having clause, which will be added with the keyword OR
 
 ##### Method `order_by($column [, $order])`
+Add a order by section
 ###### Example:
 ```php
 $activeRecords = Table::query()
@@ -367,6 +393,7 @@ $activeRecords = Table::query()
 ```
 
 ##### Method `limit($limit)`
+Add a limit
 ###### Example:
 ```php
 $activeRecords = Table::query()
@@ -375,6 +402,7 @@ $activeRecords = Table::query()
 ```
 
 ##### Method `offset($offset)`
+Add a offset
 ###### Example:
 ```php
 $activeRecords = Table::query()
@@ -383,6 +411,7 @@ $activeRecords = Table::query()
 ```
 
 ##### Method `sql()`
+Create the final sql statement
 ###### Example:
 ```php
 $sql = Table::query()
@@ -392,6 +421,7 @@ $sql = Table::query()
 ```
 
 ##### Method `get_results()`
+Get the results of the query
 ###### Example:
 ```php
 $results = Table::query()
@@ -399,6 +429,7 @@ $results = Table::query()
 ```
 
 ##### Method `get_row()`
+Get the row of the query
 ###### Example:
 ```php
 $row = Table::query()
@@ -407,6 +438,7 @@ $row = Table::query()
 ```
 
 ##### Method `get_col()`
+Get the column of the query
 ###### Example:
 ```php
 $descriptions = Table::query()
@@ -415,6 +447,7 @@ $descriptions = Table::query()
 ```
 
 ##### Method `get_var()`
+Get the value of the query
 ###### Example:
 ```php
 $description = Table::query()
@@ -424,6 +457,7 @@ $description = Table::query()
 ```
 
 ##### Method `get()`
+Get the results of the query as an array of model instances
 ###### Example:
 ```php
 $activeRecords = Table::query()
@@ -431,6 +465,7 @@ $activeRecords = Table::query()
 ```
 
 ##### Method `get_one()`
+Get the results of the query as a model instances
 ###### Example:
 ```php
 $activeRecord = Table::query()
@@ -439,6 +474,7 @@ $activeRecord = Table::query()
 ```
 
 ##### Method `execute()`
+Execute the query
 ###### Example:
 ```php
 Table::query()
