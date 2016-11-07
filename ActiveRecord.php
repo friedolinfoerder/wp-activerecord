@@ -206,7 +206,7 @@ abstract class ActiveRecord {
      * @return mixed The return value of the query
      * @throws Exception
      */
-    public function __callStatic($name, $arguments) {
+    public static function __callStatic($name, $arguments) {
         $type = null;
         $prop_name = null;
         $query = static::query()->select();
