@@ -80,6 +80,7 @@ API
       * [Method `order_by($column [, $order])`](#method-order_bycolumn--order)
       * [Method `limit($limit)`](#method-limitlimit)
       * [Method `offset($offset)`](#method-offsetoffset)
+      * [Method `join($table, $attribute, $foreign_attribute [, $type])`](#method-join--table--attribute--foreign_attribute--type)
       * [Method `sql()`](#method-sql)
       * [Method `get_results()`](#method-get_results)
       * [Method `get_row()`](#method-get_row)
@@ -407,6 +408,15 @@ Add a offset
 ```php
 $activeRecords = Table::query()
   ->offset(10)
+  ->get();
+```
+
+##### Method `join($table, $attribute, $foreign_attribute [, $type])`
+Add a join condition
+###### Example:
+```php
+$activeRecords = Table::query()
+  ->join('OtherTable', 'id', 'table_id')
   ->get();
 ```
 

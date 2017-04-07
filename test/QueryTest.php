@@ -24,7 +24,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::select
+     * @covers Query::select
      */
     public function testSelectSimple() {
         $query = new Query();
@@ -35,7 +35,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::select
+     * @covers Query::select
      */
     public function testSelectFrom() {
         $query = $this->query;
@@ -47,7 +47,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::select
+     * @covers Query::select
      */
     public function testSelectAttributes() {
         $query = $this->query;
@@ -59,7 +59,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::select
+     * @covers Query::select
      */
     public function testSelectChained() {
         $this->assertEquals(
@@ -70,7 +70,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::delete
+     * @covers Query::delete
      */
     public function testDelete() {
         $preparation = $this->query
@@ -88,7 +88,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::set
+     * @covers Query::set
      */
     public function testSetOneAttribute() {
         $preparation = $this->query
@@ -107,7 +107,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::set
+     * @covers Query::set
      */
     public function testSetTwoAttributes() {
         $preparation = $this->query
@@ -127,7 +127,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::set
+     * @covers Query::set
      */
     public function testSetNull() {
         $preparation = $this->query
@@ -146,7 +146,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::set
+     * @covers Query::set
      */
     public function testSetRaw() {
         $preparation = $this->query
@@ -165,7 +165,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::set
+     * @covers Query::set
      */
     public function testSetMultiple() {
         $preparation = $this->query
@@ -184,7 +184,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::insert
+     * @covers Query::insert
      */
     public function testInsert() {
         $data = [
@@ -208,7 +208,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::insert
+     * @covers Query::insert
      */
     public function testInsertMultiple() {
         $data = [
@@ -231,7 +231,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::where
+     * @covers Query::where
      */
     public function testWhereEquals() {
         $preparation = $this->query
@@ -251,7 +251,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::where
+     * @covers Query::where
      */
     public function testWhereGreaterAs() {
         $preparation = $this->query
@@ -271,7 +271,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::where
+     * @covers Query::where
      */
     public function testWhereIsNull() {
         $preparation = $this->query
@@ -291,7 +291,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::where
+     * @covers Query::where
      */
     public function testWhereIsNotNull() {
         $preparation = $this->query
@@ -311,7 +311,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::where
+     * @covers Query::where
      */
     public function testWhereIn() {
         $list = [1, 2, 3];
@@ -332,7 +332,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::where
+     * @covers Query::where
      */
     public function testWhereMultiple() {
         $preparation = $this->query
@@ -352,7 +352,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::where
+     * @covers Query::where
      */
     public function testWhereRawString() {
         $preparation = $this->query
@@ -372,7 +372,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::where
+     * @covers Query::where
      */
     public function testWhereRawArray() {
         $preparation = $this->query
@@ -392,7 +392,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::and_where
+     * @covers Query::and_where
      */
     public function testAnd_where() {
         $preparation = $this->query
@@ -413,7 +413,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::or_where
+     * @covers Query::or_where
      */
     public function testOr_where() {
         $preparation = $this->query
@@ -434,7 +434,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::group_by
+     * @covers Query::group_by
      */
     public function testGroup_by() {
         $preparation = $this->query
@@ -454,7 +454,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::group_by
+     * @covers Query::group_by
      */
     public function testGroup_byRaw() {
         $preparation = $this->query
@@ -474,7 +474,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::having
+     * @covers Query::having
      */
     public function testHaving() {
         $preparation = $this->query
@@ -494,7 +494,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::and_having
+     * @covers Query::and_having
      */
     public function testAnd_having() {
         $preparation = $this->query
@@ -515,7 +515,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::or_having
+     * @covers Query::or_having
      */
     public function testOr_having() {
         $preparation = $this->query
@@ -536,7 +536,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::having
+     * @covers Query::having
      */
     public function testHavingRawColumn() {
         $preparation = $this->query
@@ -558,7 +558,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::order_by
+     * @covers Query::order_by
      */
     public function testOrder_by() {
         $preparation = $this->query
@@ -578,7 +578,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::limit
+     * @covers Query::limit
      */
     public function testLimit() {
         $preparation = $this->query
@@ -598,7 +598,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::limit
+     * @covers Query::limit
      */
     public function testLimitRaw() {
         $preparation = $this->query
@@ -618,7 +618,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::offset
+     * @covers Query::offset
      */
     public function testOffset() {
         $preparation = $this->query
@@ -639,7 +639,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers wp_activerecord\Query::sql
+     * @covers Query::sql
      * @todo   Implement testSql().
      */
     public function testSqlWithSimpleQuery() {
@@ -651,7 +651,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers wp_activerecord\Query::sql
+     * @covers Query::sql
      */
     public function testSqlWithAdvancedQuery() {
         global $wpdb;
@@ -673,6 +673,26 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $this->query->limit(5)->sql()
         );
                 
+    }
+
+    /**
+     * @covers Query::join
+     */
+    public function testJoinSimple() {
+        $preparation = $this->query
+            ->join('table2', 'id', 'foreign_id')
+            ->prepare();
+
+        $this->assertEquals(
+            "SELECT * \n"
+            . "FROM `table` \n"
+            . "INNER JOIN `table2` ON `table`.`id` = `table2`.`foreign_id`",
+            $preparation->sql
+        );
+        $this->assertEquals(
+            [],
+            $preparation->vars
+        );
     }
 
 }

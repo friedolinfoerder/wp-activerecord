@@ -8,7 +8,12 @@ namespace wp_activerecord;
  * @author Friedolin Förder <friedolinfoerder@gmx.de>
  */
 class Query {
-    
+
+    // join variants
+    const JOIN_INNER = 'inner';
+    const JOIN_LEFT = 'left';
+    const JOIN_RIGHT = 'right';
+
     /**
      * The type of query
      * 
@@ -92,6 +97,13 @@ class Query {
      * @var int|array OFFSET property
      */
     protected $offset;
+
+    /**
+     * JOIN command
+     *
+     * @var array JOIN commands
+     */
+    protected $join = [];
     
     /**
      * Constructor
@@ -335,6 +347,21 @@ class Query {
         $this->offset = $offset;
         return $this;
     }
+
+    /**
+     * Add a join
+     *
+     * @param $table
+     * @param $attribute
+     * @param $join_attribute
+     *
+     * @return \wp_activerecord\Query
+     *
+     */
+    public function join($table, $attribute, $join_attribute, $type='inner') {
+        $this->join[] = [$table, $attribute, $join_attribute, $type];
+        return $this;
+    }
     
     /**
      * Prepare the sql string and the variables for the final sql statement
@@ -371,7 +398,12 @@ class Query {
         if($this->insert) {
             $this->prepare_insert_condition($sql, $args);
         }
-        
+
+        // JOIN
+        if($this->join) {
+            $this->prepare_join_condition($sql, $args);
+        }
+
         // WHERE
         if($this->where) {
             $this->prepare_where_conditions('where', $sql, $args);
@@ -693,5 +725,15 @@ class Query {
             $values[] = sprintf("(%s)", join(', ', $rowValues));
         }
         $sql[] = sprintf("(%s) VALUES %s", join(", ", $escapedColumns), join(", ", $values));
+    }
+
+    protected function prepare_join_condition(&$sql, &$args) {
+        $model = $this->model;
+        $table = $this->hasModel ? $model::get_table_name() : $model;
+
+        foreach($this->join as $row) {
+            $type = strtoupper($row[3]);
+            $sql[] = "{$type} JOIN `{$row[0]}` ON `{$table}`.`{$row[1]}` = `{$row[0]}`.`{$row[2]}`";
+        }
     }
 }
