@@ -80,7 +80,7 @@ API
       * [Method `order_by($column [, $order])`](#method-order_bycolumn--order)
       * [Method `limit($limit)`](#method-limitlimit)
       * [Method `offset($offset)`](#method-offsetoffset)
-      * [Method `join($table, $attribute, $foreign_attribute [, $type])`](#method-join--table--attribute--foreign_attribute--type)
+      * [Method `join($table, $attribute, $foreign_attribute [, $type])`](#method-jointable-attribute-foreign_attribute--type)
       * [Method `sql()`](#method-sql)
       * [Method `get_results()`](#method-get_results)
       * [Method `get_row()`](#method-get_row)
