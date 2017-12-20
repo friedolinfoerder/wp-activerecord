@@ -510,7 +510,7 @@ class Query {
         }
         
         $modelClass = $this->model;
-        $results = static::wpdb()->get_results($this->sql(), OBJECT_K);
+        $results = static::wpdb()->get_results($this->sql(), ARRAY_A);
         $models = [];
         foreach($results as $result) {
             $models[] = new $modelClass($result);
@@ -529,7 +529,7 @@ class Query {
         }
         
         $modelClass = $this->model;
-        $result = static::wpdb()->get_row($this->sql(), OBJECT_K);
+        $result = static::wpdb()->get_row($this->sql(), ARRAY_A);
         return new $modelClass($result);
     }
     
