@@ -347,6 +347,7 @@ $activeRecords = Table::query()
     'start' => 12,
     'end'   => 37
   ])
+  ->where(['deleted_at', null]) // query for NULL value, produces  `deleted_at` IS NULL
   ->where('value', '>', ['RAND()']) // raw value wrapped in array
   ->where('numbers', 'in', [[1, 2, 3]] // a array as raw value will be joined
   ->get();
