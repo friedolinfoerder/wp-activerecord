@@ -1,9 +1,10 @@
 <?php
 
-namespace wp_activerecord;
+namespace wp_activerecord\testing;
 
-require '../Query.php';
-require 'wpdbMock.php';
+use wp_activerecord\Query;
+
+require __DIR__ . "/wpdbMock.php";
 
 /**
  * Test for Query Class
@@ -14,22 +15,22 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
      * @var Query
      */
     protected $query;
-    
+
     protected function setUp() {
         global $wpdb;
         // create global mock
         $wpdb = new wpdbMock();
-        
+
         $this->query = new Query('table');
     }
-    
+
     /**
      * @covers Query::select
      */
     public function testSelectSimple() {
         $query = new Query();
         $this->assertEquals(
-            "SELECT RAND()", 
+            "SELECT RAND()",
             $query->select('RAND()')->sql()
         );
     }
@@ -41,11 +42,11 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $query = $this->query;
         $this->assertEquals(
             "SELECT * \n"
-          . "FROM `table`", 
+          . "FROM `table`",
             $this->query->select()->sql()
         );
     }
-    
+
     /**
      * @covers Query::select
      */
@@ -53,18 +54,18 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $query = $this->query;
         $this->assertEquals(
             "SELECT id, name \n"
-          . "FROM `table`", 
+          . "FROM `table`",
             $this->query->select('id', 'name')->sql()
         );
     }
-    
+
     /**
      * @covers Query::select
      */
     public function testSelectChained() {
         $this->assertEquals(
             "SELECT id, name \n"
-          . "FROM `table`", 
+          . "FROM `table`",
             $this->query->select('id')->select('name')->sql()
         );
     }
@@ -76,7 +77,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->delete()
             ->prepare();
-        
+
         $this->assertEquals(
             "DELETE FROM `table`",
             $preparation->sql
@@ -94,7 +95,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->set("name", "john")
             ->prepare();
-        
+
         $this->assertEquals(
             "UPDATE `table` \n"
           . "SET `name` = %s",
@@ -105,7 +106,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::set
      */
@@ -114,7 +115,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             ->set("name", "john")
             ->set("age", 23)
             ->prepare();
-        
+
         $this->assertEquals(
             "UPDATE `table` \n"
           . "SET `name` = %s, `age` = %s",
@@ -125,7 +126,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::set
      */
@@ -133,7 +134,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->set("name", null)
             ->prepare();
-        
+
         $this->assertEquals(
             "UPDATE `table` \n"
           . "SET `name` = NULL",
@@ -144,7 +145,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::set
      */
@@ -152,7 +153,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->set("name", ["RAND()"])
             ->prepare();
-        
+
         $this->assertEquals(
             "UPDATE `table` \n"
           . "SET `name` = RAND()",
@@ -163,7 +164,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::set
      */
@@ -171,7 +172,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->set(['name' => 'john', 'age' => 33])
             ->prepare();
-        
+
         $this->assertEquals(
             "UPDATE `table` \n"
           . "SET `name` = %s, `age` = %s",
@@ -182,20 +183,20 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::insert
      */
     public function testInsert() {
         $data = [
-            'name' => 'john', 
-            'age' => ['RAND()'], 
+            'name' => 'john',
+            'age' => ['RAND()'],
             'parent_id' => null
         ];
         $preparation = $this->query
             ->insert($data)
             ->prepare();
-        
+
         $this->assertEquals(
             "INSERT INTO `table` \n"
           . "(`name`, `age`, `parent_id`) VALUES (%s, RAND(), NULL)",
@@ -206,7 +207,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::insert
      */
@@ -218,7 +219,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->insert($data)
             ->prepare();
-        
+
         $this->assertEquals(
             "INSERT INTO `table` \n"
           . "(`name`, `age`) VALUES (%s, %s), (%s, %s)",
@@ -237,7 +238,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->where("name", "john")
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -249,7 +250,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::where
      */
@@ -257,7 +258,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->where("age", ">", 23)
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -269,7 +270,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::where
      */
@@ -277,7 +278,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->where("parent_id", null)
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
            . "FROM `table` \n"
@@ -289,7 +290,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::where
      */
@@ -297,7 +298,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->where("parent_id", "is not", null)
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -309,7 +310,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::where
      */
@@ -318,7 +319,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->where("list", "in", [$list])
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -330,7 +331,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::where
      */
@@ -338,7 +339,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->where(['age' => null, 'name' => 'john'])
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -350,7 +351,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::where
      */
@@ -358,7 +359,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->where('age = 38')
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -370,7 +371,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::where
      */
@@ -378,7 +379,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->where(['age = %s', 38])
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -399,7 +400,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             ->where("name", "john")
             ->and_where("age", "<", 18)
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -420,7 +421,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             ->where("name", "john")
             ->or_where("age", "<", 18)
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -440,7 +441,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->group_by('age', 'desc')
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -452,7 +453,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::group_by
      */
@@ -460,7 +461,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->group_by(['RAND()'])
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -480,7 +481,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->having("value", "<", ["RAND()"])
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -501,7 +502,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             ->having("value", "is not", null)
             ->and_having("value", ">", ["RAND()"])
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -522,7 +523,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             ->having("value", "something")
             ->or_having("value", ">", ["RAND()"])
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -534,7 +535,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::having
      */
@@ -543,7 +544,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             ->group_by('name')
             ->having(["SUM(price)"], ">", 10)
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -564,7 +565,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->order_by('age')
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -584,7 +585,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->limit(5)
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -596,7 +597,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $preparation->vars
         );
     }
-    
+
     /**
      * @covers Query::limit
      */
@@ -604,7 +605,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->limit(['RAND()'])
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -624,7 +625,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
         $preparation = $this->query
             ->offset(10)
             ->prepare();
-        
+
         $this->assertEquals(
             "SELECT * \n"
           . "FROM `table` \n"
@@ -649,30 +650,30 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
             $this->query->sql()
         );
     }
-    
+
     /**
      * @covers Query::sql
      */
     public function testSqlWithAdvancedQuery() {
         global $wpdb;
-        
+
         $expectedObject = new \stdClass();
-        
+
         // create global mock
         $wpdb = $this->getMock('\\wp_activerecord\\wpdbMock', ['prepare']);
         $wpdb->expects($this->once())
              ->method('prepare')
              ->with($this->equalTo("SELECT * \n"
                                  . "FROM `table` \n"
-                                 . "LIMIT %d"), 
+                                 . "LIMIT %d"),
                     $this->equalTo(5))
              ->will($this->returnValue($expectedObject));
-        
+
         $this->assertEquals(
             $expectedObject,
             $this->query->limit(5)->sql()
         );
-                
+
     }
 
     /**

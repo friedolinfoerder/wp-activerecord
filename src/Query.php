@@ -16,84 +16,84 @@ class Query {
 
     /**
      * The type of query
-     * 
+     *
      * @var string The type of query
      */
     protected $type;
-    
+
     /**
      * Flag for checking if there is a model
-     * 
+     *
      * @var boolean Flag for checking if there is a model
      */
     protected $hasModel;
-    
+
     /**
      * The current model or table name
-     * 
+     *
      * @var string|null The current model or table name
      */
     protected $model;
-    
+
     /**
      * SELECT properties
-     * 
+     *
      * @var array SELECT properties
      */
     protected $select = [];
-    
+
     /**
      * SET columns
-     * 
+     *
      * @var array SET columns
      */
     protected $set = [];
-    
+
     /**
      * INSERT rows
-     * 
-     * @var array INSERT rows 
+     *
+     * @var array INSERT rows
      */
     protected $insert = [];
-    
+
     /**
-     * WHERE conditions 
-     * 
-     * @var array WHERE conditions 
+     * WHERE conditions
+     *
+     * @var array WHERE conditions
      */
     protected $where = [];
-    
+
     /**
-     * GROUP BY conditions 
-     * 
-     * @var array GROUP BY conditions 
+     * GROUP BY conditions
+     *
+     * @var array GROUP BY conditions
      */
     protected $group_by = [];
-    
+
     /**
      * HAVING conditions
-     * 
+     *
      * @var array HAVING conditions
      */
     protected $having = [];
-    
+
     /**
      * ORDER BY conditions
-     * 
+     *
      * @var array ORDER BY conditions
      */
     protected $order_by = [];
-    
+
     /**
      * LIMIT property
-     * 
+     *
      * @var int|array LIMIT property
      */
     protected $limit;
-    
+
     /**
      * OFFSET property
-     * 
+     *
      * @var int|array OFFSET property
      */
     protected $offset;
@@ -104,10 +104,10 @@ class Query {
      * @var array JOIN commands
      */
     protected $join = [];
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param string  $model   (optional) A class name of a wp_activerecord\Model class or a table name
      * @param boolean $isModel (optional) Flag for checking if $model is a class name
      */
@@ -115,12 +115,12 @@ class Query {
         $this->model = $model;
         $this->hasModel = $isModel;
     }
-    
+
     /**
      * Select rows
-     * 
+     *
      * @param string $property,... Properties to select
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function select() {
@@ -128,24 +128,24 @@ class Query {
         $this->select = array_merge($this->select, func_get_args());
         return $this;
     }
-    
+
     /**
      * Delete rows
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function delete() {
         return $this->type('DELETE');
     }
-    
+
     /**
      * Update rows (Alias for \wp_activerecord\Query::set)
-     * 
+     *
      * @see \wp_activerecord\Query::set
-     * 
+     *
      * @param string|array $column (optional) A column name or a data object
      * @param string       $value  (optional) A value of a column
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function update($column=null, $value=null) {
@@ -155,13 +155,13 @@ class Query {
             return call_user_func_array(array($this, 'set'), func_get_args());
         }
     }
-    
+
     /**
      * Set columns
-     * 
+     *
      * @param string|array $column A column name or a data object
      * @param string       $value  (optional) A value of a column
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function set($column, $value=null) {
@@ -179,12 +179,12 @@ class Query {
         $this->set[$column] = $value;
         return $this;
     }
-    
+
     /**
      * Insert rows
-     * 
+     *
      * @param array $data One data object or multiple rows
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function insert(array $data) {
@@ -203,46 +203,46 @@ class Query {
         $this->insert = array_merge($this->insert, $data);
         return $this;
     }
-    
+
     /**
      * Add a where condition
-     * 
-     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple 
+     *
+     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple
      *                                    where conditions in an array
      * @param mixed        $type_or_value (optional) The type of the query (e.g. = or >) or the value of the column
      * @param mixed        $value         (optional) The value of the column
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function where($column, $type_or_value=null, $value=null) {
         return $this->where_condition('where', func_num_args(), $column, $type_or_value, $value);
     }
-    
+
     /**
-     * Alias for Query::where 
-     * 
+     * Alias for Query::where
+     *
      * @see \wp_activerecord\Query::where
-     * 
-     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple 
+     *
+     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple
      *                                    where conditions in an array
      * @param mixed        $type_or_value (optional) The type of the query (e.g. = or >) or the value of the column
      * @param mixed        $value         (optional) The value of the column
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function and_where($key, $type_or_value=null, $value=null) {
         // call where function
         return call_user_func_array([$this, 'where'], func_get_args());
     }
-    
+
     /**
      * Create a where condition and adds it with the keyword OR
-     * 
-     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple 
+     *
+     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple
      *                                    where conditions in an array
      * @param mixed        $type_or_value (optional) The type of the query (e.g. = or >) or the value of the column
      * @param mixed        $value         (optional) The value of the column
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function or_where($key, $type_or_value=null, $value=null) {
@@ -251,58 +251,58 @@ class Query {
         // call where function
         return call_user_func_array([$this, 'where'], func_get_args());
     }
-    
+
     /**
      * Add a group by section
-     * 
+     *
      * @param string|array   $column The column name or the raw string wrapped in an array
      * @param string|boolean $order  (optional) The order of the grouping, ASC/true or DESC/false
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function group_by($column, $order="ASC") {
         return $this->order_condition('group_by', func_num_args(), $column, $order);
     }
-    
+
     /**
      * Add a having condition
-     * 
-     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple 
+     *
+     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple
      *                                    where conditions in an array
      * @param mixed        $type_or_value (optional) The type of the query (e.g. = or >) or the value of the column
      * @param mixed        $value         (optional) The value of the column
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function having($column, $type_or_value=null, $value=null) {
         return $this->where_condition('having', func_num_args(), $column, $type_or_value, $value);
     }
-    
+
     /**
-     * Alias for Query::having 
-     * 
+     * Alias for Query::having
+     *
      * @see \wp_activerecord\Query::having
-     * 
-     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple 
+     *
+     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple
      *                                    where conditions in an array
      * @param mixed        $type_or_value (optional) The type of the query (e.g. = or >) or the value of the column
      * @param mixed        $value         (optional) The value of the column
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function and_having($column, $type_or_value=null, $value=null) {
         // call where function
         return call_user_func_array([$this, 'having'], func_get_args());
     }
-    
+
     /**
      * Create a where condition and adds it with the keyword OR
-     * 
-     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple 
+     *
+     * @param string|array $column        A column name, a raw condition wrapped in an array or multiple
      *                                    where conditions in an array
      * @param mixed        $type_or_value (optional) The type of the query (e.g. = or >) or the value of the column
      * @param mixed        $value         (optional) The value of the column
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function or_having($column, $type_or_value=null, $value=null) {
@@ -311,36 +311,36 @@ class Query {
         // call where function
         return call_user_func_array([$this, 'having'], func_get_args());
     }
-    
+
     /**
      * Add a order by section
-     * 
+     *
      * @param string|array   $column The column name or the raw string wrapped in an array
      * @param string|boolean $order  (optional) The order of the grouping, ASC/true or DESC/false
-     * 
+     *
      * @return \wp_activerecord\Query The current query object
      */
     public function order_by($column, $order="ASC") {
         return $this->order_condition('order_by', func_num_args(), $column, $order);
     }
-    
+
     /**
      * Add a limit
-     * 
+     *
      * @param int|string|array $limit The limit number or a raw string wrapped in an array
-     * 
+     *
      * @return \wp_activerecord\Query
      */
     public function limit($limit) {
         $this->limit = $limit;
         return $this;
     }
-    
+
     /**
      * Add a offset
-     * 
+     *
      * @param int|string|array $limit The offset number or a raw string wrapped in an array
-     * 
+     *
      * @return \wp_activerecord\Query
      */
     public function offset($offset) {
@@ -362,19 +362,19 @@ class Query {
         $this->join[] = [$table, $attribute, $join_attribute, $type];
         return $this;
     }
-    
+
     /**
      * Prepare the sql string and the variables for the final sql statement
-     * 
+     *
      * @return \stdClass A preparation object
      */
     public function prepare() {
         $model = $this->model;
         $table = $this->hasModel ? $model::get_table_name() : $model;
-        
+
         $args = [];
         $sql = [];
-        
+
         // SELECT, UPDATE, INSERT or DELETE
         if($this->type === 'DELETE') {
             $sql[] = sprintf("DELETE FROM `%s`", $table);
@@ -388,12 +388,12 @@ class Query {
                 $sql[] = sprintf("FROM `%s`", $table);
             }
         }
-        
+
         // SET
         if($this->set) {
             $this->prepare_set_condition($sql, $args);
         }
-        
+
         // INSERT
         if($this->insert) {
             $this->prepare_insert_condition($sql, $args);
@@ -408,50 +408,50 @@ class Query {
         if($this->where) {
             $this->prepare_where_conditions('where', $sql, $args);
         }
-        
+
         // GROUP BY
         if($this->group_by) {
             $this->prepare_order_conditions('group_by', $sql, $args);
         }
-        
+
         // HAVING
         if($this->having) {
             $this->prepare_where_conditions('having', $sql, $args);
         }
-        
+
         // ORDER BY
         if($this->order_by) {
             $this->prepare_order_conditions('order_by', $sql, $args);
         }
-        
+
         // LIMIT
         if($this->limit) {
             $this->prepare_limit_condition('limit', $sql, $args);
         } elseif($this->offset) {
             $sql[] = "LIMIT 18446744073709551615";
         }
-        
+
         // OFFSET
         if($this->offset) {
             $this->prepare_limit_condition('offset', $sql, $args);
         }
-        
-        // create output object 
+
+        // create output object
         $preparation = new \stdClass();
         $preparation->sql = join(" \n", $sql);
         $preparation->vars = $args;
-        
+
         return $preparation;
     }
-    
+
     /**
      * Create the final sql statement
-     * 
+     *
      * @return string The final sql statement
      */
     public function sql() {
         $preparation = $this->prepare();
-        
+
         if($preparation->vars) {
             // add the sql string to the beginning of the args
             array_unshift($preparation->vars, $preparation->sql);
@@ -459,101 +459,101 @@ class Query {
         } else {
             $sql = $preparation->sql;
         }
-        
+
         return $sql;
     }
-    
+
     /**
      * Get the results of the query
-     * 
+     *
      * @return array The results as an array
      */
     public function get_results() {
         return static::wpdb()->get_results($this->sql());
     }
-    
+
     /**
      * Get the row of the query
-     * 
+     *
      * @return \stdClass The row as an object
      */
     public function get_row() {
         return static::wpdb()->get_row($this->sql());
     }
-    
+
     /**
      * Get the column of the query
-     * 
+     *
      * @return array The column as an array
      */
     public function get_col() {
         return static::wpdb()->get_col($this->sql());
     }
-    
+
     /**
      * Get the value of the query
-     * 
+     *
      * @return string The value returned by the query
      */
     public function get_var() {
         return static::wpdb()->get_var($this->sql());
     }
-    
+
     /**
      * Get the results of the query as an array of model instances
-     * 
+     *
      * @return array The results as an array of model instances
      */
     public function get() {
         if(!$this->hasModel) {
             return $this->get_results();
         }
-        
+
         $modelClass = $this->model;
-        $results = static::wpdb()->get_results($this->sql(), ARRAY_A);
+        $results = static::wpdb()->get_results($this->sql(), 'ARRAY_A');
         $models = [];
         foreach($results as $result) {
             $models[] = new $modelClass($result);
         }
         return $models;
     }
-    
+
     /**
      * Get the results of the query as a model instances
-     * 
+     *
      * @return array The results as a model instances
      */
     public function get_one() {
         if(!$this->hasModel) {
             return $this->get_row();
         }
-        
+
         $modelClass = $this->model;
-        $result = static::wpdb()->get_row($this->sql(), ARRAY_A);
+        $result = static::wpdb()->get_row($this->sql(), 'ARRAY_A');
         return new $modelClass($result);
     }
-    
+
     /**
      * Execute the query
-     * 
+     *
      * @return null
      */
     public function execute() {
         return static::wpdb()->query($this->sql());
     }
-    
+
     /**
      * Get the wpdb instance
-     * 
+     *
      * @global object $wpdb
-     * 
+     *
      * @return object The wpdb instance
      */
     public static function wpdb() {
         global $wpdb;
         return $wpdb;
     }
-    
+
     protected function type($type) {
         if($this->type && $this->type !== $type) {
             throw new Exception("The type of query is already '{$this->type}'");
@@ -561,7 +561,7 @@ class Query {
         $this->type = $type;
         return $this;
     }
-    
+
     protected function where_condition($array, $num_args, $column, $type_or_value, $value) {
         $type = $type_or_value;
         $obj = null;
@@ -603,7 +603,7 @@ class Query {
         $this->{$array}[count($this->{$array})-1][] = $obj;
         return $this;
     }
-    
+
     protected function order_condition($array, $num_args, $column, $order) {
         $obj = null;
         if(is_array($column)) {
@@ -626,7 +626,7 @@ class Query {
         $this->{$array}[] = $obj;
         return $this;
     }
-    
+
     protected function prepare_where_conditions($array, &$sql, &$args) {
         $where = [];
         foreach($this->{$array} as $group) {
@@ -641,7 +641,7 @@ class Query {
                     } else {
                         $column = "`{$item->column}`";
                     }
-                    
+
                     if(is_array($item->value)) {
                         $value = $item->value[0];
                         if(is_array($value)) {
@@ -663,7 +663,7 @@ class Query {
         }
         $sql[] = sprintf("%s %s", strtoupper($array), join(" OR ", $where));
     }
-    
+
     protected function prepare_order_conditions($array, &$sql, &$args) {
         $group_by = [];
         foreach($this->{$array} as $item) {
@@ -676,7 +676,7 @@ class Query {
         }
         $sql[] = sprintf("%s %s", strtoupper(str_replace('_', ' ', $array)), join(", ", $group_by));
     }
-    
+
     protected function prepare_limit_condition($array, &$sql, &$args) {
         $limit = $this->{$array};
         if(is_array($limit)) {
@@ -687,7 +687,7 @@ class Query {
             $sql[] = strtoupper($array) . " %d";
         }
     }
-    
+
     protected function prepare_set_condition(&$sql, &$args) {
         $set = [];
         foreach($this->set as $key => $value) {
@@ -701,7 +701,7 @@ class Query {
         }
         $sql[] = sprintf("SET %s", join(", ", $set));
     }
-    
+
     protected function prepare_insert_condition(&$sql, &$args) {
         $insert = [];
         $columns = array_keys($this->insert[0]);
