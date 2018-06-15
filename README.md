@@ -6,6 +6,14 @@ The goal of this library is to provide a small but yet powerful [ORM](http://en.
 * The `ActiveRecord` class maps rows to object instances and the columns to object properties.
 * The `Query` class provides a [fluent interface](http://en.wikipedia.org/wiki/Fluent_interface) to create sql queries. 
 
+Installation
+------------
+
+```sh 
+composer require friedolinfoerder/wp-activerecord
+```
+
+
 Usage
 -----
 
