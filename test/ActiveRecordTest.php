@@ -6,6 +6,10 @@ use wp_activerecord\ActiveRecord;
 
 class Table extends ActiveRecord {
     protected static $table_name = 'table';
+
+    protected static $casts = [
+        'count' => 'int'
+    ];
 }
 
 /**
@@ -232,4 +236,51 @@ class ActiveRecordTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+
+    public function testCastsGetVarNumber() {
+        global $wpdb;
+        $wpdb->varReturn = '5';
+        $result = Table::get_var_count_by_id(2);
+
+        $this->assertSame(
+            5,
+            $result
+        );
+    }
+
+
+    public function testCastsGetRowNumber() {
+        global $wpdb;
+        $wpdb->rowReturn = ['count' => '5'];
+        $result = Table::get_one_by_id(2);
+
+        $this->assertSame(
+            5,
+            $result->count
+        );
+    }
+
+
+    public function testCastsGetColNumber() {
+        global $wpdb;
+        $wpdb->colReturn = ['5'];
+        $result = Table::get_col_count();
+
+        $this->assertSame(
+            5,
+            $result[0]
+        );
+    }
+
+
+    public function testCastsGetNumber() {
+        global $wpdb;
+        $wpdb->resultsReturn = [['count' => '5']];
+        $result = Table::get();
+
+        $this->assertSame(
+            5,
+            $result[0]->count
+        );
+    }
 }

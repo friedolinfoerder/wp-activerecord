@@ -5,7 +5,7 @@ namespace wp_activerecord;
 /**
  * The Query Builder Class
  *
- * @author Friedolin Förder <friedolinfoerder@gmx.de>
+ * @author Friedolin Förder
  */
 class Query {
 
@@ -108,7 +108,7 @@ class Query {
     /**
      * Constructor
      *
-     * @param string  $model   (optional) A class name of a wp_activerecord\Model class or a table name
+     * @param string|ActiveRecord  $model   (optional) A class name of a \wp_activerecord\ActiveRecord class or a table name
      * @param boolean $isModel (optional) Flag for checking if $model is a class name
      */
     public function __construct($model=null, $isModel=false) {
@@ -469,7 +469,8 @@ class Query {
      * @return array The results as an array
      */
     public function get_results() {
-        return static::wpdb()->get_results($this->sql());
+        $results = $this->get_raw_results();
+        return $this->get_casted_rows($results);
     }
 
     /**
@@ -478,25 +479,44 @@ class Query {
      * @return \stdClass The row as an object
      */
     public function get_row() {
-        return static::wpdb()->get_row($this->sql());
+        $row = $this->get_raw_row();
+        return $this->get_casted_row($row);
     }
 
     /**
      * Get the column of the query
      *
      * @return array The column as an array
+     * @throws \Exception
      */
     public function get_col() {
-        return static::wpdb()->get_col($this->sql());
+        if(count($this->select) !== 1) {
+            throw new \Exception("Query.get_col: You have to provide exactly one select argument");
+        }
+        $prop = $this->select[0];
+        $values = static::wpdb()->get_col($this->sql());
+
+        $castedValues = [];
+        foreach($values as $val) {
+            $castedValues[] = $this->get_casted_value($prop, $val);
+        }
+        return $castedValues;
     }
 
     /**
      * Get the value of the query
      *
      * @return string The value returned by the query
+     * @throws \Exception
      */
     public function get_var() {
-        return static::wpdb()->get_var($this->sql());
+        if(count($this->select) !== 1) {
+            throw new \Exception("Query.get_var: You have to provide exactly one select argument");
+        }
+        $prop = $this->select[0];
+        $var = static::wpdb()->get_var($this->sql());
+
+        return $this->get_casted_value($prop, $var);
     }
 
     /**
@@ -510,7 +530,7 @@ class Query {
         }
 
         $modelClass = $this->model;
-        $results = static::wpdb()->get_results($this->sql(), 'ARRAY_A');
+        $results = $this->get_raw_results();
         $models = [];
         foreach($results as $result) {
             $models[] = new $modelClass($result);
@@ -529,7 +549,7 @@ class Query {
         }
 
         $modelClass = $this->model;
-        $result = static::wpdb()->get_row($this->sql(), 'ARRAY_A');
+        $result = $this->get_raw_row();
         return new $modelClass($result);
     }
 
@@ -556,7 +576,7 @@ class Query {
 
     protected function type($type) {
         if($this->type && $this->type !== $type) {
-            throw new Exception("The type of query is already '{$this->type}'");
+            throw new \Exception("The type of query is already '{$this->type}'");
         }
         $this->type = $type;
         return $this;
@@ -569,7 +589,7 @@ class Query {
             if(is_string($column)) {
                 $obj = [$column];
             } elseif(!is_array($column)) {
-                throw new Exception('Only one argument provided for function where, but this is not an string or array.');
+                throw new \Exception('Only one argument provided for function where, but this is not an string or array.');
             } elseif(array_key_exists(0, $column)) {
                 $obj = $column;
             } else {
@@ -735,5 +755,36 @@ class Query {
             $type = strtoupper($row[3]);
             $sql[] = "{$type} JOIN `{$row[0]}` ON `{$table}`.`{$row[1]}` = `{$row[0]}`.`{$row[2]}`";
         }
+    }
+
+    protected function get_casted_rows(array $rows) {
+        $castedRows = [];
+        foreach($rows as $row) {
+            $castedRows[] = $this->get_casted_row($row);
+        }
+        return $castedRows;
+    }
+
+    protected function get_casted_row(array $row) {
+        $castedRow = [];
+        foreach($row as $key => $value) {
+            $castedRow[$key] = $this->get_casted_value($key, $value);
+        }
+        return $castedRow;
+    }
+
+    protected function get_casted_value($prop, $val) {
+        if($this->hasModel) {
+            return ($this->model)::get_casted_value($prop, $val);
+        }
+        return $val;
+    }
+
+    protected function get_raw_results() {
+        return static::wpdb()->get_results($this->sql(), 'ARRAY_A');
+    }
+
+    protected function get_raw_row() {
+        return static::wpdb()->get_row($this->sql(), 'ARRAY_A');
     }
 }

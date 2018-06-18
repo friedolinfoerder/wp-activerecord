@@ -13,6 +13,11 @@ class wpdbMock {
     public $prefix = 'prefix_';
     public $insert_id;
 
+    public $varReturn = 'var';
+    public $rowReturn = [];
+    public $colReturn = [];
+    public $resultsReturn = [];
+
     public function prepare() {
         if(func_num_args() < 2) {
             throw new Exception("There must be more than one argument");
@@ -31,17 +36,22 @@ class wpdbMock {
 
     public function get_var($sql) {
         $this->query($sql);
-        return 'var';
+        return $this->varReturn;
     }
 
     public function get_row($sql) {
         $this->query($sql);
-        return [];
+        return $this->rowReturn;
+    }
+
+    public function get_col($sql) {
+        $this->query($sql);
+        return $this->colReturn;
     }
 
     public function get_results($sql) {
         $this->query($sql);
-        return [];
+        return $this->resultsReturn;
     }
 }
 

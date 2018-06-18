@@ -20,7 +20,6 @@ Usage
 You can use the library in your plugin or directly in your `functions.php` file. All you have to do is to require the `ActiveRecord` class and define your model classes (e.g. `Slideshow`):
 
 ```php
-require 'wp-activerecord/ActiveRecord.php';
 
 // create a model class for the table {wp-prefix}slideshows 
 class Slideshow extends \wp_activerecord\ActiveRecord {
@@ -31,17 +30,17 @@ class Slideshow extends \wp_activerecord\ActiveRecord {
 With this you can create new rows, update and save them like this:
 
 ```php
-// create
+// create new row
 $slideshow = Slideshow::create([
     'title'        => 'Header slideshow',
     'slide_time'   => 3000,
     'slide_effect' => 'fade'
 ]);
 
-// retrieve by id
+// retrieve by id...
 $slideshow = Slideshow::get(1);
 
-// update
+// ... and update the row
 $slideshow->title = 'New title';
 $slideshow->slide_effect = 'slide';
 $slideshow->save();
@@ -51,6 +50,8 @@ API
 ---
 
 * [Class `ActiveRecord`](#class-activerecord)
+    * [Static properties](#static-properties)
+      * [Property `$casts`](#property-casts)
     * [Static methods](#static-methods)
       * [Method `create([$attributes])`](#method-createattributes)
       * [Method `delete_by_id($id)`](#method-delete_by_idid)
@@ -99,6 +100,21 @@ API
       * [Method `execute()`](#method-execute)
 
 ### Class `ActiveRecord`
+
+#### Static Properties
+##### Property `$casts`
+Cast row values to native types.  
+###### Example:
+```php
+class Slideshow extends \wp_activerecord\ActiveRecord {
+    protected static $casts = [
+        'num_slides' => 'int',
+        'duration' => 'float',
+        'active' => 'boolean',
+        'created_at' => 'datetime',
+    ];
+}
+```
 
 #### Static Methods
 ##### Method `create([$attributes])`
