@@ -775,7 +775,8 @@ class Query {
 
     protected function get_casted_value($prop, $val) {
         if($this->hasModel) {
-            return ($this->model)::get_casted_value($prop, $val);
+            $model = $this->model;
+            return $model::get_casted_value($prop, $val);
         }
         return $val;
     }
