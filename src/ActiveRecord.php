@@ -126,7 +126,7 @@ abstract class ActiveRecord {
                     $val = $cast[$name]($val);
                 }
             } else {
-                $cast = mb_strtolower($cast);
+                $cast = \mb_strtolower($cast);
                 // check for name alias
                 if(array_key_exists($cast, Casting::$alias)) {
                     $cast = Casting::$alias[$cast];
