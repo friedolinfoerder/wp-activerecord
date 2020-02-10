@@ -283,4 +283,16 @@ class ActiveRecordTest extends \PHPUnit_Framework_TestCase {
             $result[0]->count
         );
     }
+
+
+    public function testCastsGetNullIfNotExists() {
+        global $wpdb;
+        $wpdb->resultsReturn = [['count' => '5']];
+        $result = Table::get();
+
+        $this->assertSame(
+            null,
+            $result[0]->id
+        );
+    }
 }

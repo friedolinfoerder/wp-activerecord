@@ -254,6 +254,9 @@ abstract class ActiveRecord {
      */
     public function __get($column) {
         if(!array_key_exists($column, $this->castedAttributes)) {
+            if(!array_key_exists($column, $this->attributes)) {
+                return null;
+            }
             $value = $this->attributes[$column];
             $this->castedAttributes[$column] = static::get_casted_value($column, $value);
         }
