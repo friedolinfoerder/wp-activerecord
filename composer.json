@@ -21,5 +21,8 @@
             "wp_activerecord\\testing\\": "test/"
         }
     },
+    "scripts": {
+        "test": "phpunit test"
+    },
     "license": "MIT"
 }

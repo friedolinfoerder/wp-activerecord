@@ -170,6 +170,34 @@ class ActiveRecordTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers \wp_activerecord\ActiveRecord::get
      */
+    public function testGetNonExisting() {
+        global $wpdb;
+        $wpdb->resultsReturn = null;
+        $result = Table::get(3);
+
+        $this->assertSame(
+            null,
+            $result
+        );
+    }
+
+    /**
+     * @covers \wp_activerecord\ActiveRecord::get
+     */
+    public function testGetExisting() {
+        global $wpdb;
+        $wpdb->rowReturn = ['id' => 3];
+        $result = Table::get(3);
+
+        $this->assertSame(
+            3,
+            $result->id
+        );
+    }
+
+    /**
+     * @covers \wp_activerecord\ActiveRecord::get
+     */
     public function testGetAll() {
         Table::get();
 

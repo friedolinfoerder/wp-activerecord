@@ -550,6 +550,9 @@ class Query {
 
         $modelClass = $this->model;
         $result = $this->get_raw_row();
+        if(!$result) {
+            return null;
+        }
         return new $modelClass($result);
     }
 
