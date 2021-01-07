@@ -10,6 +10,8 @@ use wp_activerecord\utils\Casting;
  */
 abstract class ActiveRecord {
 
+    protected static $primary_key = 'id';
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -48,12 +50,12 @@ abstract class ActiveRecord {
      * @return \wp_activerecord\Model The model object
      */
     public function save() {
-        $isNew = !array_key_exists('id', $this->attributes);
+        $isNew = !array_key_exists(static::$primary_key, $this->attributes);
         $this->save_pre($isNew);
         if($isNew) {
-            $this->attributes['id'] = static::insert($this->attributes);
+            $this->attributes[static::$primary_key] = static::insert($this->attributes);
         } else {
-            static::update($this->attributes)->where('id', $this->id)->execute();
+            static::update($this->attributes)->where(static::$primary_key, $this->{static::$primary_key})->execute();
         }
         $this->save_post($isNew);
         return $this;
@@ -65,10 +67,10 @@ abstract class ActiveRecord {
      * @return \wp_activerecord\Model The model instance
      */
     public function delete() {
-        if(array_key_exists('id', $this->attributes)) {
+        if(array_key_exists(static::$primary_key, $this->attributes)) {
             $this->delete_pre();
-            static::delete_by_id($this->id);
-            $this->id = null;
+            static::delete_by_id($this->{static::$primary_key});
+            $this->{static::$primary_key} = null;
             $this->delete_post();
         }
         return $this;
@@ -79,6 +81,14 @@ abstract class ActiveRecord {
     protected function save_post($isNew) {}
     protected function delete_pre() {}
     protected function delete_post() {}
+
+    /**
+     * Set primary key.
+     * @param string $primary_key primary key name
+     */
+    public static function set_primary_key($primary_key) {
+        static::$primary_key = $primary_key;
+    }
 
     /**
      * Set the table name
@@ -213,7 +223,7 @@ abstract class ActiveRecord {
     public static function delete_by_id($id) {
         static::query()
             ->delete()
-            ->where('id', $id)
+            ->where(static::$primary_key, $id)
             ->execute();
     }
 
@@ -228,7 +238,7 @@ abstract class ActiveRecord {
         if(func_num_args() === 0) {
             return static::query()->get();
         }
-        return static::query()->where('id', $id)->get_one();
+        return static::query()->where(static::$primary_key, $id)->get_one();
     }
 
     /**
