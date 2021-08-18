@@ -21,5 +21,6 @@
             "wp_activerecord\\testing\\": "test/"
         }
     },
-    "license": "MIT"
+    "license": "MIT",
+    "minimum-stability": "beta"
 }
