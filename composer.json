@@ -22,5 +22,8 @@
         }
     },
     "license": "MIT",
-    "minimum-stability": "beta"
+    "minimum-stability": "beta",
+    "scripts": {
+        "test": "phpunit test"
+    }
 }

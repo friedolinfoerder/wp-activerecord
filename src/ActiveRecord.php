@@ -136,7 +136,7 @@ abstract class ActiveRecord {
                     $val = $cast[$name]($val);
                 }
             } else {
-                $cast = mb_strtolower($cast);
+                $cast = function_exists('mb_strtolower') ? \mb_strtolower($cast) : \strtolower($cast);
                 // check for name alias
                 if(array_key_exists($cast, Casting::$alias)) {
                     $cast = Casting::$alias[$cast];
@@ -264,6 +264,9 @@ abstract class ActiveRecord {
      */
     public function __get($column) {
         if(!array_key_exists($column, $this->castedAttributes)) {
+            if(!array_key_exists($column, $this->attributes)) {
+                return null;
+            }
             $value = $this->attributes[$column];
             $this->castedAttributes[$column] = static::get_casted_value($column, $value);
         }

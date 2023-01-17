@@ -550,6 +550,9 @@ class Query {
 
         $modelClass = $this->model;
         $result = $this->get_raw_row();
+        if(!$result) {
+            return null;
+        }
         return new $modelClass($result);
     }
 
@@ -775,7 +778,8 @@ class Query {
 
     protected function get_casted_value($prop, $val) {
         if($this->hasModel) {
-            return ($this->model)::get_casted_value($prop, $val);
+            $model = $this->model;
+            return $model::get_casted_value($prop, $val);
         }
         return $val;
     }
