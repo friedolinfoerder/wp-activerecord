@@ -785,10 +785,10 @@ class Query {
     }
 
     protected function get_raw_results() {
-        return static::wpdb()->get_results($this->sql(), 'ARRAY_A');
+        return static::wpdb()->get_results($this->sql(), 'ARRAY_A') ?? [];
     }
 
     protected function get_raw_row() {
-        return static::wpdb()->get_row($this->sql(), 'ARRAY_A');
+        return static::wpdb()->get_row($this->sql(), 'ARRAY_A') ?? [];
     }
 }
